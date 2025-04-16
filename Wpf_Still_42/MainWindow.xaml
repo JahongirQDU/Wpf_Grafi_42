@@ -11,7 +11,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Canvas Grid.Row="0" Background="AliceBlue"/>
+        <Canvas x:Name="Grafik" Grid.Row="0" Background="AliceBlue"/>
         <StackPanel Orientation="Horizontal" Grid.Row="1">
            <TextBox x:Name="FormulaMatni"  Width="300" Margin="10"/>
             <Button x:Name="Natija" Content="Hisoblash" Margin="10" 
