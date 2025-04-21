@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using NCalc;
 
 namespace Wpf_Still_42
 {
@@ -30,6 +31,7 @@ namespace Wpf_Still_42
         {
             Grafik.Children.Clear();
             Koordinata_chizish(Grafik);
+            FunksiyaGrafiginiChiz(Grafik,FormulaMatni.Text);
         }
         
         public void Koordinata_chizish(Canvas kanvas)
@@ -38,7 +40,7 @@ namespace Wpf_Still_42
             double Height = kanvas.ActualHeight;
             double MarkazX=Width/2;
             double MarkazY=Height/2;
-            double step=Width/20;
+            double step=Width/40;
 
             //X o'qi
           Chizma_chizish(kanvas, 0, MarkazY, Width, MarkazY, 1);
@@ -73,6 +75,38 @@ namespace Wpf_Still_42
                 StrokeThickness = size
         } ;
             kanvas.Children.Add(line);
+        }
+
+        private void FunksiyaGrafiginiChiz(Canvas kanvas, string formula)
+        {
+            double Width = kanvas.ActualWidth;
+            double Height = kanvas.ActualHeight;
+
+            double markazX = Width / 2;
+            double markazY = Height / 2;
+
+            double birlik = Width / 40; // -10 dan +10 gacha ko‘rsatish
+
+            Polyline grafik = new Polyline
+            {
+                Stroke = Brushes.Blue,
+                StrokeThickness = 2
+            };
+
+            for (double x = -20; x <= 20; x += 0.1)
+            {
+                var ifoda = new NCalc.Expression(formula);
+                ifoda.Parameters["x"] = x;
+
+                double y = Convert.ToDouble(ifoda.Evaluate());
+
+                double ekranX = markazX + x * birlik;
+                double ekranY = markazY - y * birlik;
+
+                grafik.Points.Add(new Point(ekranX, ekranY));
+            }
+
+            kanvas.Children.Add(grafik);
         }
 
 
